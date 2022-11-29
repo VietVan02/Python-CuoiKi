@@ -76,6 +76,6 @@ def read_file():
 
 
 if __name__ == "__main__":
-    # main()
+    # main() ok
     # read_file_wav()
     app.run(debug=True)
