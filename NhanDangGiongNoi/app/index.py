@@ -49,7 +49,6 @@ def root():
 
 @app.route("/record_wav", methods=["GET", "POST"])
 def record_wav():
-    print("1")
     transcript = ""
     if request.method == "POST":
         transcript = record()
@@ -58,8 +57,10 @@ def record_wav():
 
 @app.route("/file", methods=["GET", "POST"])
 def read_file():
-    if "file" not in request.files:
-        return redirect(request.url)
+    check_file = request.files.getlist(key="file")
+    print(len(check_file))
+    if len(check_file) == 0:
+        return render_template('index.html', transcript="No input file...")
     file = request.files["file"]
     if file.filename == "":
         return redirect(request.url)
