@@ -1,5 +1,6 @@
 import speech_recognition as sr
 from flask import Flask, redirect, render_template, request, flash
+# from infer import restore_model, load_audio
 import os
 import io
 
@@ -8,6 +9,13 @@ app = Flask(__name__)
 
 path_file_txt = 'text.txt'
 path_file_wav = 'recorded.wav'
+
+# đường dẫn tới checkpoint và file config cho model
+# config = 'config/quartznet12x1_abcfjwz.yaml'
+# encoder_checkpoint = 'model_vietasr/checkpoints/JasperEncoder-STEP-1312684.pt'
+# decoder_checkpoint = 'model_vietasr/checkpoints/JasperDecoderForCTC-STEP-1312684.pt'
+
+# neural_factory = restore_model(config, encoder_checkpoint, decoder_checkpoint)
 
 
 def record():
@@ -55,6 +63,24 @@ def record_wav():
     return render_template('index.html', transcript=transcript)
 
 
+# @app.route("/file", methods=["GET", "POST"])
+# def read_file():
+#     check_file = request.files.getlist(key="file")
+#     print(len(check_file))
+#     if len(check_file) == 0:
+#         return render_template('index.html', transcript="No input file...")
+#     file = request.files["file"]
+#     if file.filename == "":
+#         return render_template('index.html', transcript="No input file...")
+
+#     file.save('static/upload/' + file.filename)
+#     print('Write file success!')
+#     sig = load_audio('static/upload/' + file.filename)
+#     greedy_hypotheses, transcript = neural_factory.infer_signal(sig)
+
+#     return render_template('index.html', transcript=transcript, audio_path='static/' + file.filename)
+
+
 @app.route("/file", methods=["GET", "POST"])
 def read_file():
     check_file = request.files.getlist(key="file")
@@ -63,7 +89,7 @@ def read_file():
         return render_template('index.html', transcript="No input file...")
     file = request.files["file"]
     if file.filename == "":
-        return redirect(request.url)
+        return render_template('index.html', transcript="No input file...")
 
     if file:
         recognizer = sr.Recognizer()
@@ -73,8 +99,8 @@ def read_file():
         transcript = recognizer.recognize_google(
             data, language="vi-VN")
         print(transcript)
-    return render_template('index.html', transcript=transcript)
 
+    return render_template('index.html', transcript=transcript)
 
 if __name__ == "__main__":
     # main()

@@ -28,12 +28,15 @@
                     </form>
                 </div>
                 <hr width="100%" />
-
-                <div style="margin:30px 30px;">
-                    {% for message in get_flashed_messages() %}
-                    <h2>{{ message }}</h2>
-                    {% endfor %}
-                    <h4>Result:</h4>
+                <div style="margin:20px 30px;">
+                    <div class="header-text">
+                        <h4>Result:</h4>
+                        <div class="audio">
+                            <audio controls autoplay>
+                                <source src="{{audio_path}}" type="audio/wav">
+                            </audio>
+                        </div>
+                    </div>
                     <div class="text">
                         <div class="edit"><span> {{ transcript }}</span></div>
                     </div>
@@ -81,18 +84,20 @@
     }
 
     .content {
-        margin-top: 140px;
+        margin-top: 110px;
         margin-left: 352px;
         position: absolute;
         z-index: 1;
     }
-    .input{
+
+    .input {
         display: flex;
         padding: 30px;
     }
+
     .change {
         width: 816px;
-        height: 333px;
+        height: 350px;
         margin-top: 30px;
         border-Radius: 10px;
         justify-content: center;
@@ -113,12 +118,25 @@
         box-shadow: 0 0 2px #ffa608;
     }
 
+    .header-text {
+        display: flex;
+    }
+
+    .audio {
+        margin-left: 50px;
+    }
+
     .edit {
         margin: 20px 10px 10px 10px;
+        padding-top: 10px;
     }
 
     span {
         margin-left: 20px;
+        
+    }
+    .edit:first-letter {
+        text-transform: capitalize
     }
 
     .button {
@@ -138,7 +156,11 @@
         /* margin-left: 350px; */
     }
 
-    button:hover {
+    .mic:hover {
+        transform: scale(1.5);
+    }
+
+    .button:hover {
         background-color: #F2B751;
     }
 </style>
